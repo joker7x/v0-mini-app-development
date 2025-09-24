@@ -6,11 +6,12 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Search, Filter, ScanLine, History, X } from "lucide-react"
 import { DrugCard } from "./drug-card"
+import { generateDrugKey } from "@/lib/search-utils"
 
 interface SearchPageProps {
   drugs: any[]
-  favorites: string[]
-  onToggleFavorite: (drugId: string) => void
+  favorites: Set<string>
+  onToggleFavorite: (drugKey: string) => void
   onSearch: (query: string) => void
 }
 
@@ -112,14 +113,17 @@ export function SearchPage({ drugs, favorites, onToggleFavorite, onSearch }: Sea
             </Card>
           ) : (
             <div className="space-y-3">
-              {filteredDrugs.map((drug) => (
-                <DrugCard
-                  key={drug.id}
-                  drug={drug}
-                  isFavorite={favorites.includes(drug.id)}
-                  onToggleFavorite={onToggleFavorite}
-                />
-              ))}
+              {filteredDrugs.map((drug) => {
+                const key = generateDrugKey(drug)
+                return (
+                  <DrugCard
+                    key={key}
+                    drug={drug}
+                    isFavorite={favorites.has(key)}
+                    onToggleFavorite={() => onToggleFavorite(key)}
+                  />
+                )
+              })}
             </div>
           )}
         </div>
