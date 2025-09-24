@@ -1,0 +1,17 @@
+# Node modules
+node_modules
+.pnpm
+
+# Build outputs
+.next
+out
+
+# Logs
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env
+.env
+.env.*
